@@ -65,20 +65,15 @@ app.post('/api/anime', async (req, res) => {
     try {
         const newAnime = req.body;
 
-        // Leer los datos existentes del archivo
         const data = await fs.readFile('anime.json', 'utf8');
         const animeData = JSON.parse(data);
 
-        // Obtén el número más alto de las claves existentes
         const highestKey = Math.max(...Object.keys(animeData).map(Number));
 
-        // Calcula la siguiente clave numérica
         const nextKey = highestKey + 1;
 
-        // Agrega el nuevo anime con la clave numérica calculada
         animeData[nextKey] = newAnime;
 
-        // Guardar los datos actualizados en el archivo
         await fs.writeFile('anime.json', JSON.stringify(animeData, null, 2), 'utf8');
 
         res.send({ code: 201, message: 'Anime creado exitosamente' });
